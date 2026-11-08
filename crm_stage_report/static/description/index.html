@@ -1,0 +1,141 @@
+<!-- Copy this file to crm_stage_report/static/description/index.html.
+     Uses Bootstrap 4 classes and basic inline styles. No JS, style tags,
+     external fonts, remote images, widgets, or external platform links.
+     The module's existing static/description/icon.png is used below. -->
+<section class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-md-3 text-center mb-4">
+            <img src="icon.png" class="img-fluid rounded" width="200" alt="CRM Stage Change Report module icon"/>
+        </div>
+        <div class="col-md-9 mb-4">
+            <p class="mb-2" style="color:#714B67;font-size:14px;font-weight:700;">ODOO 19 | CRM REPORTING</p>
+            <h1 class="mb-3" style="color:#172B4D;font-size:36px;font-weight:700;">CRM Stage Change Report</h1>
+            <p class="lead mb-3" style="color:#495057;">Review recorded opportunity stage changes in one table.</p>
+            <p style="color:#495057;">Choose a date range, narrow the results by customer, company or stage, and generate a report from existing CRM chatter history. Select the columns you need, then print the report or download it as PDF or Excel.</p>
+            <span class="badge badge-light border p-2 mr-2 mb-2">Calendar date filters</span>
+            <span class="badge badge-light border p-2 mr-2 mb-2">Multiple customers</span>
+            <span class="badge badge-light border p-2 mr-2 mb-2">PDF and Excel</span>
+            <span class="badge badge-light border p-2 mb-2">Column selection</span>
+        </div>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <div class="border rounded p-4 bg-light">
+        <h2 class="mb-3" style="color:#172B4D;font-size:26px;font-weight:700;">Where to find the report</h2>
+        <p class="mb-2" style="color:#495057;">Open <strong>CRM &gt; Reporting &gt; Stage Changes</strong>.</p>
+        <p class="mb-0" style="color:#495057;">The report is available to authorized CRM sales users. It uses their active companies and record access permissions.</p>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <h2 class="mb-4 text-center" style="color:#172B4D;font-size:28px;font-weight:700;">From CRM history to a shareable report</h2>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="border rounded p-4 h-100">
+                <p class="mb-2" style="color:#714B67;font-weight:700;">01 / CHOOSE YOUR FILTERS</p>
+                <h3 style="color:#172B4D;font-size:20px;">Select dates, customers and stages</h3>
+                <p class="mb-0" style="color:#495057;">Use the calendar buttons to choose From and To dates. Select a company, add one or more customers, or filter by From Stage and To Stage. Leave optional filters blank to keep the broader selection.</p>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="border rounded p-4 h-100">
+                <p class="mb-2" style="color:#714B67;font-weight:700;">02 / GENERATE THE REPORT</p>
+                <h3 style="color:#172B4D;font-size:20px;">Click Get Report</h3>
+                <p class="mb-0" style="color:#495057;">Load the recorded stage changes for your selection. Results are grouped by customer and lead, with the newest changes first within each lead. If you change a filter, click Get Report again to refresh the generated results.</p>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="border rounded p-4 h-100">
+                <p class="mb-2" style="color:#714B67;font-weight:700;">03 / REVIEW AND CUSTOMIZE</p>
+                <h3 style="color:#172B4D;font-size:20px;">Search results and choose columns</h3>
+                <p class="mb-0" style="color:#495057;">Search the generated report, move between result pages, or change the rows per page. Open the three-dot menu beside the change count to hide or restore columns. All columns are selected by default; at least one must remain visible.</p>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="border rounded p-4 h-100">
+                <p class="mb-2" style="color:#714B67;font-weight:700;">04 / PRINT OR DOWNLOAD</p>
+                <h3 style="color:#172B4D;font-size:20px;">Use the same column selection everywhere</h3>
+                <p class="mb-0" style="color:#495057;">Print the generated results or download PDF and Excel files. Hidden columns are omitted from each output, including both Excel data sheets. Print and exports use the searched result set, not only the currently displayed page.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <h2 class="mb-4 text-center" style="color:#172B4D;font-size:28px;font-weight:700;">Built for day-to-day CRM review</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Calendar-only date selection</h3>
+            <p style="color:#495057;">Choose dates with Odoo's native calendar picker rather than typing. The report displays dates as DD/MM/YYYY.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Searchable customer selection</h3>
+            <p style="color:#495057;">Find customers through autocomplete or Search More. Add multiple customers, remove individual selections or clear them all. Selected tags scroll within a fixed-height area.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Lead-aware cell merging</h3>
+            <p style="color:#495057;">Repeated Customer, Company, Salesperson, From Stage, To Stage and Chatter Author values merge only within the same lead, not across different leads for one customer.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Expected Closing date</h3>
+            <p style="color:#495057;">See the opportunity's current Expected Closing date immediately after Salesperson. The cell stays blank when no date is set.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Excel report and source rows</h3>
+            <p style="color:#495057;">The workbook contains a merged Stage Changes sheet, an unmerged Data sheet for filtering and a Notes sheet explaining the report. Both data sheets respect selected columns.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h3 style="color:#714B67;font-size:19px;">Open the opportunity</h3>
+            <p style="color:#495057;">Click a Lead / Opportunity name in the on-screen table to open its CRM record and review the underlying opportunity.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <h2 class="mb-3" style="color:#172B4D;font-size:28px;font-weight:700;">Available report columns</h2>
+    <p style="color:#495057;">Use the three-dot menu to include only the columns needed for your report.</p>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="bg-light">
+                <tr><th scope="col">Column</th><th scope="col">What it shows</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Lead / Opportunity</td><td>Current opportunity name, linked to the record on screen.</td></tr>
+                <tr><td>Customer (current)</td><td>The customer currently assigned to the opportunity.</td></tr>
+                <tr><td>Company (current)</td><td>The opportunity's current company.</td></tr>
+                <tr><td>Salesperson (current)</td><td>The salesperson currently assigned to the opportunity.</td></tr>
+                <tr><td>Expected Closing</td><td>The current expected closing date, if set.</td></tr>
+                <tr><td>From Stage</td><td>The previous stage recorded in the tracked change.</td></tr>
+                <tr><td>To Stage</td><td>The new stage recorded in the tracked change.</td></tr>
+                <tr><td>Changed At</td><td>The recorded change timestamp, displayed in the user's timezone.</td></tr>
+                <tr><td>Chatter Author</td><td>The author associated with the chatter message. This is not guaranteed to identify the user who performed the stage update.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <div class="border rounded p-4 bg-light">
+        <h2 class="mb-3" style="color:#172B4D;font-size:26px;font-weight:700;">What the report includes</h2>
+        <ul class="mb-0" style="color:#495057;">
+            <li class="mb-2">Existing CRM stage-change tracking messages. The module does not reconstruct deleted history or changes made while tracking was disabled.</li>
+            <li class="mb-2">Inclusive date filtering, with a maximum range of 367 days and up to 10,000 matched changes per generated report.</li>
+            <li class="mb-2">Current opportunity metadata, not historical snapshots of customer, company, salesperson, opportunity name or expected closing date. Exports re-read that metadata.</li>
+            <li class="mb-2">Exact customer matching against the opportunity's assigned customer. Selecting a company contact does not automatically include all of its child contacts.</li>
+            <li>Rows grouped by customer and lead. The report is not one globally chronological list across every opportunity.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="container pb-5">
+    <h2 class="mb-3" style="color:#172B4D;font-size:28px;font-weight:700;">Installation requirements</h2>
+    <ol style="color:#495057;">
+        <li class="mb-2">Use an Odoo 19 environment that permits installing custom Python modules.</li>
+        <li class="mb-2">Place <code>crm_stage_report</code> in your configured addons path.</li>
+        <li class="mb-2">Install the Python dependency <code>xlsxwriter</code> in the environment running Odoo.</li>
+        <li class="mb-2">Update the Apps List and install the module. Its dependencies are <code>crm</code>, <code>web</code> and <code>mail</code>.</li>
+        <li>Configure Odoo's PDF rendering requirements to use the PDF export. No external reporting service is required.</li>
+    </ol>
+    <p class="mb-0" style="color:#495057;">After a module update, restart Odoo and upgrade the module so Python changes, database fields and report templates are loaded.</p>
+</section>
