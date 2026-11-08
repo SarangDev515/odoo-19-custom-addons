@@ -1,0 +1,78 @@
+.dcr_report { display:flex; flex-direction:column; flex:1 1 auto; height:100%; min-height:0; width:100%; overflow:hidden; padding:16px; background:var(--o-view-background-color,#fff); }
+.dcr_report .dcr_slide { display:grid; grid-template-rows:1fr; flex:0 0 auto; opacity:1; transition:grid-template-rows .28s ease,opacity .22s ease; }
+.dcr_report .dcr_collapsed { grid-template-rows:0fr; opacity:0; }
+.dcr_report .dcr_slide_inner { min-height:0; overflow:hidden; }
+.dcr_report .dcr_filters { display:flex; align-items:center; gap:14px; background:#f7f8fa; border:1px solid #dfe3e8; border-radius:8px; padding:12px 16px; overflow-x:auto; }
+.dcr_report .dcr_filters label { display:flex; align-items:center; gap:8px; margin:0; white-space:nowrap; font-weight:500; }
+.dcr_report .dcr_filters input { min-width:140px; }
+.dcr_report .dcr_filters select { min-width:155px; max-width:250px; }
+.dcr_report .dcr_buttons { display:flex; flex-direction:column; gap:6px; align-items:center; flex:0 0 auto; }
+.dcr_report .btn { white-space:nowrap; border-radius:3px; }
+.dcr_report .dcr_toggle { text-align:right; flex:0 0 auto; margin:2px 0; }
+.dcr_report h1 { text-align:center; font-size:26px; margin:12px 0 16px; }
+.dcr_report .dcr_note { font-size:12px; color:#666; text-align:center; }
+.dcr_report .dcr_toolbar { display:flex; align-items:center; gap:10px; flex:0 0 auto; margin-bottom:10px; }
+.dcr_report .dcr_toolbar input { max-width:360px; margin-right:auto; }
+.dcr_report .dcr_table_area { flex:1 1 auto; min-height:0; overflow:auto; border:1px solid #dfe3e8; }
+.dcr_report table { margin:0; }
+.dcr_report thead { position:sticky; top:0; z-index:1; }
+.dcr_report th { background:#f3f0f7; font-weight:700; white-space:nowrap; }
+.dcr_report td,.dcr_report th { padding:9px 12px; vertical-align:middle; }
+@media(max-width:767px) { .dcr_report { padding:8px; } .dcr_report .dcr_toolbar { flex-wrap:wrap; } }
+@media(prefers-reduced-motion:reduce) { .dcr_report .dcr_slide { transition:none; } }
+
+/* Bottom pagination and real vertical cell merging. */
+.dcr_report .dcr_pagination { display:flex; align-items:center; justify-content:flex-end; gap:10px; flex:0 0 auto; padding-top:10px; }
+.dcr_report .dcr_pagination label { display:flex; align-items:center; gap:8px; margin-right:auto; white-space:nowrap; }
+.dcr_report .dcr_pagination select { width:85px; }
+.dcr_report td[rowspan] { vertical-align:middle; border:1px solid #dfe3e8; background:var(--o-view-background-color,#fff); }
+.dcr_report .dcr_filters input { width:145px; }
+@media(max-width:767px) { .dcr_report .dcr_pagination { flex-wrap:wrap; } }
+
+/* Searchable res.partner Customer selector. */
+.dcr_report .dcr_filters { flex-wrap:wrap; overflow:visible; }
+.dcr_report .dcr_slide:not(.dcr_collapsed) .dcr_slide_inner { overflow:visible; }
+.dcr_report .dcr_slide { position:relative; z-index:3; }
+.dcr_report .dcr_partner_filter { display:flex; align-items:center; gap:8px; min-width:240px; }
+.dcr_report .dcr_partner_filter > label { font-weight:500; margin:0; }
+.dcr_report .dcr_partner_filter .o-autocomplete { min-width:180px; flex:1; }
+
+/* Keep Customer directly below Company, with removable multi-selection tags. */
+.dcr_report .dcr_company_customer { display:flex; flex:0 1 400px; flex-direction:column; align-items:stretch; gap:10px; width:400px; min-width:340px; max-width:480px; }
+.dcr_report .dcr_company_customer > label > select { flex:1; max-width:none; }
+.dcr_report .dcr_partner_filter { align-items:flex-start; }
+.dcr_report .dcr_partner_filter > label { padding-top:7px; }
+.dcr_report .dcr_customer_selection { flex:1; min-width:0; }
+/* Reserve the same space even when empty; only selected tags scroll, not the search dropdown. */
+.dcr_report .dcr_customer_tags { display:flex; flex-wrap:wrap; align-content:flex-start; gap:5px; height:32px; min-height:32px; max-height:32px; overflow-y:auto; overflow-x:hidden; scrollbar-gutter:stable; margin-bottom:5px; }
+.dcr_report .dcr_customer_tags > .badge { max-width:100%; min-width:0; flex-shrink:0; }
+.dcr_report .dcr_customer_tags > .badge > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dcr_report .dcr_customer_tags > .badge > button { flex-shrink:0; }
+.dcr_report .dcr_partner_filter > .btn { flex:0 0 28px; width:28px; }
+.dcr_report .dcr_partner_filter:not(:has(> .btn)) { padding-right:36px; }
+.dcr_report .dcr_customer_selection .o-autocomplete input { width:100%; min-width:0; }
+@media(max-width:767px) { .dcr_report .dcr_company_customer { min-width:0; width:100%; max-width:100%; } }
+
+/* Stack From/To date and stage controls in aligned pairs. */
+.dcr_report .dcr_filter_pair { display:flex; flex-direction:column; align-items:stretch; gap:10px; flex:0 0 auto; }
+.dcr_report .dcr_filter_pair > label { display:grid; grid-template-columns:85px minmax(0,1fr); gap:8px; }
+.dcr_report .dcr_filter_pair > label > select { width:180px; }
+@media(max-width:767px) { .dcr_report .dcr_filter_pair { width:100%; } .dcr_report .dcr_filter_pair > label > input, .dcr_report .dcr_filter_pair > label > select { width:100%; max-width:none; min-width:0; } }
+
+/* Calendar-only date selection; popup uses the native Odoo 19 calendar. */
+.dcr_report .dcr_date_control { position:relative; width:160px; }
+.dcr_report .dcr_date_control .dcr_date_input { width:100%; min-width:0; padding-right:36px; cursor:pointer; border-radius:8px; background:var(--o-view-background-color,#fff); }
+.dcr_report .dcr_calendar_button { position:absolute; top:1px; bottom:1px; right:1px; width:34px; padding:0; border:0; border-radius:0 7px 7px 0; color:var(--o-brand-primary,#714b67); background:transparent; }
+.dcr_report .dcr_calendar_button:hover { background:rgba(113,75,103,.1); }
+.dcr_report .dcr_date_input:focus-visible { outline:2px solid var(--o-brand-primary,#714b67); outline-offset:2px; }
+@media(max-width:767px) { .dcr_report .dcr_date_control { width:100%; } }
+
+/* Right-aligned column chooser; opens above the scrolling table. */
+.dcr_report .dcr_column_menu { position:relative; flex:0 0 auto; }
+.dcr_report .dcr_column_trigger { list-style:none; width:32px; text-align:center; }
+.dcr_report .dcr_column_trigger::-webkit-details-marker { display:none; }
+.dcr_report .dcr_column_options { position:absolute; right:0; top:calc(100% + 6px); z-index:10; width:250px; max-width:80vw; max-height:65vh; overflow-y:auto; background:var(--o-view-background-color,#fff); border:1px solid #dfe3e8; border-radius:10px; box-shadow:0 8px 24px #0002; padding:10px; }
+.dcr_report .dcr_column_heading { font-weight:600; padding:4px 8px 8px; }
+.dcr_report .dcr_column_options label { display:flex; align-items:center; gap:10px; padding:7px 8px; cursor:pointer; border-radius:5px; }
+.dcr_report .dcr_column_options label:hover { background:#f3f0f7; }
+.dcr_report .dcr_column_options input { width:16px; height:16px; margin:0; accent-color:var(--o-brand-primary,#714b67); }

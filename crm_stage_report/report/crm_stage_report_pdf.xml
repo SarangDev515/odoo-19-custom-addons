@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="stage_report_paperformat" model="report.paperformat">
+        <field name="name">CRM Stage Report Landscape</field>
+        <field name="format">A4</field><field name="orientation">Landscape</field>
+        <field name="margin_top">12</field><field name="margin_bottom">12</field>
+        <field name="margin_left">8</field><field name="margin_right">8</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="action_stage_report_pdf" model="ir.actions.report">
+        <field name="name">CRM Stage Change Report</field>
+        <field name="model">crm.stage.report.export</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">crm_stage_report.stage_report_pdf</field>
+        <field name="report_file">crm_stage_report.stage_report_pdf</field>
+        <field name="paperformat_id" ref="stage_report_paperformat"/>
+        <field name="print_report_name">'CRM Stage Changes'</field>
+    </record>
+    <template id="stage_report_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="report_rows" t-value="doc._pdf_rows()"/>
+                <t t-set="column_headers" t-value="doc._column_headers()"/>
+                <div class="page" style="font-family:DejaVu Sans,sans-serif;font-size:9px;">
+                    <h2 style="text-align:center">CRM Stage Change Report</h2>
+                    <p style="text-align:center" t-out="doc.date_label"/>
+                    <p t-if="doc.search_label">Search: <t t-out="doc.search_label"/></p>
+                    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+                        <thead style="display:table-header-group;background:#e9e3f0;">
+                            <tr>
+                                <th t-foreach="column_headers" t-as="title" style="border:1px solid #aaa;padding:5px;word-wrap:break-word;" t-out="title"/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="report_rows" t-as="row" style="page-break-inside:avoid;">
+                                <t t-foreach="range(len(row['values']))" t-as="col">
+                                    <td t-if="row['spans'][col]" t-att-rowspan="row['spans'][col]" style="border:1px solid #aaa;padding:5px;vertical-align:middle;word-wrap:break-word;" t-out="row['values'][col]"/>
+                                </t>
+                            </tr>
+                            <tr t-if="not report_rows"><td t-att-colspan="len(column_headers)">No matching stage changes</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

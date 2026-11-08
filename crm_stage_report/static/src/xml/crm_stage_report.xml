@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="crm_stage_report.StageChangeReport">
+        <div class="dcr_report">
+            <div t-att-class="'dcr_slide ' + (state.collapsed ? 'dcr_collapsed' : '')">
+                <div class="dcr_slide_inner" t-att-inert="state.collapsed ? '' : undefined" t-att-aria-hidden="state.collapsed ? 'true' : 'false'">
+                    <div class="dcr_filters">
+                        <div class="dcr_buttons">
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-primary" t-on-click="printReport" t-att-disabled="!state.ready || state.loading || state.exporting">Print <i class="fa fa-print"/></button>
+                                <button class="btn btn-primary" title="Download PDF" t-on-click="exportPdf" t-att-disabled="!state.ready || state.loading || state.exporting">PDF <i class="fa fa-file-pdf-o"/></button>
+                                <button class="btn btn-primary" title="Download Excel workbook (.xlsx)" t-on-click="exportXlsx" t-att-disabled="!state.ready || state.loading || state.exporting">Excel <i class="fa fa-file-excel-o ms-1" aria-hidden="true"/></button>
+                            </div>
+                            <button class="btn btn-primary" t-on-click="loadReport" t-att-disabled="state.loading || state.exporting">
+                                <t t-if="state.loading">Loading…</t><t t-else="">Get Report</t>
+                            </button>
+                        </div>
+                        <div class="dcr_filter_pair dcr_date_filters">
+                            <label for="dcr_date_from">From date
+                                <div class="dcr_date_control">
+                                    <input id="dcr_date_from" type="text" class="form-control dcr_date_input" t-ref="date_from" readonly="readonly" autocomplete="off" placeholder="DD/MM/YYYY"
+                                        t-att-disabled="state.loading || state.exporting" t-on-click="() => this.openDatePicker('date_from')"
+                                        t-on-keydown="(ev) => this.datePickerKeydown(ev, 'date_from')"/>
+                                    <button type="button" class="btn dcr_calendar_button" title="Choose from date" aria-label="Choose from date"
+                                        t-att-disabled="state.loading || state.exporting" t-on-click.prevent.stop="() => this.openDatePicker('date_from')">
+                                        <i class="fa fa-calendar" aria-hidden="true"/>
+                                    </button>
+                                </div>
+                            </label>
+                            <label for="dcr_date_to">To date
+                                <div class="dcr_date_control">
+                                    <input id="dcr_date_to" type="text" class="form-control dcr_date_input" t-ref="date_to" readonly="readonly" autocomplete="off" placeholder="DD/MM/YYYY"
+                                        t-att-disabled="state.loading || state.exporting" t-on-click="() => this.openDatePicker('date_to')"
+                                        t-on-keydown="(ev) => this.datePickerKeydown(ev, 'date_to')"/>
+                                    <button type="button" class="btn dcr_calendar_button" title="Choose to date" aria-label="Choose to date"
+                                        t-att-disabled="state.loading || state.exporting" t-on-click.prevent.stop="() => this.openDatePicker('date_to')">
+                                        <i class="fa fa-calendar" aria-hidden="true"/>
+                                    </button>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="dcr_company_customer">
+                            <label>Company
+                                <select class="form-select" t-model="state.filters.company_id" t-att-disabled="state.loading || state.exporting">
+                                    <option value="">Active companies + shared leads</option>
+                                    <t t-foreach="state.companies" t-as="company" t-key="company.id"><option t-att-value="company.id" t-esc="company.name"/></t>
+                                </select>
+                            </label>
+                            <div class="dcr_partner_filter" t-att-inert="state.loading || state.exporting ? '' : undefined">
+                                <label for="dcr_partner_id">Customer</label>
+                                <div class="dcr_customer_selection">
+                                    <div class="dcr_customer_tags" tabindex="0" role="region" aria-label="Selected customers">
+                                        <t t-foreach="state.selectedPartners" t-as="partner" t-key="partner.id">
+                                            <span class="badge rounded-pill text-bg-secondary d-inline-flex align-items-center gap-1">
+                                                <span t-esc="partner.name"/>
+                                                <button type="button" class="btn p-0 border-0 text-white" title="Remove customer"
+                                                    t-att-disabled="state.loading || state.exporting" t-on-click="() => this.removePartner(partner.id)">
+                                                    <i class="fa fa-times" aria-hidden="true"/>
+                                                </button>
+                                            </span>
+                                        </t>
+                                    </div>
+                                    <Many2XAutocomplete
+                                        id="'dcr_partner_id'" resModel="'res.partner'"
+                                        fieldString="'Customer'" value="''" isToMany="true"
+                                        placeholder="state.selectedPartners.length ? 'Add another customer...' : 'All customers'"
+                                        activeActions="{ create: false, createEdit: false, write: false }"
+                                        getDomain.bind="getPartnerDomain" update.bind="updatePartner"/>
+                                </div>
+                                <button t-if="state.selectedPartners.length" type="button" class="btn btn-light btn-sm" title="Clear all customers"
+                                    t-on-click="clearPartners" t-att-disabled="state.loading || state.exporting"><i class="fa fa-times" aria-hidden="true"/></button>
+                            </div>
+                        </div>
+                        <div class="dcr_filter_pair dcr_stage_filters">
+                            <label>From stage
+                                <select class="form-select" t-model="state.filters.from_stage_id" t-att-disabled="state.loading || state.exporting">
+                                    <option value="">All</option>
+                                    <t t-foreach="state.stages" t-as="stage" t-key="stage.id"><option t-att-value="stage.id" t-esc="stage.name"/></t>
+                                </select>
+                            </label>
+                            <label>To stage
+                                <select class="form-select" t-model="state.filters.to_stage_id" t-att-disabled="state.loading || state.exporting">
+                                    <option value="">All</option>
+                                    <t t-foreach="state.stages" t-as="stage" t-key="stage.id"><option t-att-value="stage.id" t-esc="stage.name"/></t>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dcr_toggle">
+                <button class="btn btn-light btn-sm" t-on-click="toggleFilters" t-att-aria-expanded="!state.collapsed" t-att-title="state.collapsed ? 'Show filters' : 'Hide filters'">
+                    <i t-att-class="state.collapsed ? 'fa fa-eye' : 'fa fa-eye-slash'"/>
+                    <span class="visually-hidden">Toggle filters</span>
+                </button>
+            </div>
+            <h1>CRM Stage Change Report</h1>
+            <p class="text-center" t-if="state.ready"><t t-esc="state.snapshot.date_from"/> to <t t-esc="state.snapshot.date_to"/></p>
+            <div t-if="dirty" class="alert alert-warning py-2">Filters changed. Click Get Report. Outputs still use the generated report.</div>
+            <div t-if="state.error" class="alert alert-danger" role="alert" t-esc="state.error"/>
+            <div t-if="state.exporting" role="status" class="text-center p-2">Preparing download...</div>
+            <div t-if="state.loading" role="status" class="text-center p-3"><i class="fa fa-spinner fa-spin"/> Loading stage history…</div>
+            <t t-if="state.ready">
+                <div class="dcr_toolbar">
+                    <input type="search" aria-label="Search generated report" class="form-control" placeholder="Search generated report…" t-att-value="state.search" t-on-input="searchChanged"/>
+                    <span><t t-esc="filteredRows.length"/> changes</span>
+                    <details class="dcr_column_menu" t-on-keydown="columnMenuKeydown">
+                        <summary class="btn btn-light dcr_column_trigger" title="Choose columns" aria-label="Choose table columns"><i class="fa fa-ellipsis-v" aria-hidden="true"/></summary>
+                        <div class="dcr_column_options" aria-label="Visible columns">
+                            <div class="dcr_column_heading">Show columns</div>
+                            <label t-foreach="columns" t-as="column" t-key="column.key">
+                                <input type="checkbox" t-att-checked="isColumnVisible(column.index)" t-att-disabled="state.loading || state.exporting" t-on-change="(ev) => this.toggleColumn(column.key, ev)"/>
+                                <span t-esc="column.label"/>
+                            </label>
+                            <button type="button" class="btn btn-link btn-sm" t-on-click="showAllColumns" t-att-disabled="state.loading || state.exporting">Show all columns</button>
+                        </div>
+                    </details>
+
+                </div>
+                <div class="dcr_table_area" t-ref="tableArea">
+                    <table class="table table-sm table-hover">
+                        <thead><tr><th t-foreach="visibleColumns" t-as="column" t-key="column.key" t-esc="column.label"/></tr></thead>
+                        <tbody>
+                            <t t-foreach="tableRows" t-as="row" t-key="row.id">
+                                <tr>
+                                    <t t-foreach="row.values" t-as="value" t-key="value_index">
+                                        <td t-if="isColumnVisible(value_index) &amp;&amp; row.spans[value_index]" t-att-rowspan="row.spans[value_index]">
+                                            <button t-if="value_index === 0" class="btn btn-link p-0 text-start" t-att-data-id="row.lead_id" t-on-click="openLead" t-esc="value"/>
+                                            <t t-else="" t-esc="value"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr t-if="!filteredRows.length"><td t-att-colspan="visibleColumns.length" class="text-center p-4">No recorded stage changes match these filters.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="dcr_pagination" aria-label="Report pagination">
+                    <label>Rows per page
+                        <select class="form-select" t-att-value="state.pageSize" t-on-change="pageSizeChanged">
+                            <option value="40">40</option><option value="80">80</option><option value="160">160</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-light" t-on-click="previous" t-att-disabled="state.page === 0">Previous</button>
+                    <span><t t-esc="state.page + 1"/> / <t t-esc="pageCount"/></span>
+                    <button class="btn btn-light" t-on-click="next" t-att-disabled="state.page + 1 >= pageCount">Next</button>
+                </div>
+            </t>
+            <p t-if="!state.ready &amp;&amp; !state.loading &amp;&amp; !state.error" class="text-center p-4">Choose filters and click Get Report.</p>
+        </div>
+    </t>
+</templates>
